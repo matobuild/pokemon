@@ -1,7 +1,9 @@
 import React from "react";
 import { generationList, typesList, sortList } from "@/utils/optionList";
+import { useSearchForm } from "@/components/SearchForm/";
 
 const SearchForm = () => {
+  const { fieldKeyword } = useSearchForm();
   return (
     <form className="grid grid-cols-4 gap-x-[20px]">
       <div>
@@ -84,6 +86,7 @@ const SearchForm = () => {
           Search
         </label>
         <input
+          {...fieldKeyword}
           id="generation"
           className="bg-[#253641] border border-gray-300 text-white text-sm rounded-lg focus:ring-[#375EAA] focus:border-[#375EAA] block w-full p-2.5"
         ></input>

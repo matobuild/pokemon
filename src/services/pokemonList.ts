@@ -1,10 +1,11 @@
 import axios from "axios";
 import { POKEMON_BASE_URL } from "@/utils/constant";
 import { IPokemonListResponse } from "@/interface/pokemonList";
+import { handleResponse, IResponse } from "@/utils/handleResponse";
 
-interface IGetPokemonListResponse {
+interface IGetPokemonListResponse extends IResponse {
   status: number | undefined;
-  data: IPokemonListResponse;
+  data?: IPokemonListResponse;
 }
 
 export const pokemonListServices = {
@@ -12,9 +13,15 @@ export const pokemonListServices = {
     limit?: number,
     offset?: number
   ): Promise<IGetPokemonListResponse> => {
-    const response = await axios.get(
-      `${POKEMON_BASE_URL}/pokemon?limit=${limit || 151}&offset=${offset || 0}`
-    );
-    return response;
+    try {
+      const response = await axios.get(
+        `${POKEMON_BASE_URL}/pokemon?limit=${limit || 151}&offset=${
+          offset || 0
+        }`
+      );
+      return handleResponse.success(response);
+    } catch (error) {
+      return handleResponse.error(error);
+    }
   },
 };

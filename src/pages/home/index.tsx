@@ -1,16 +1,8 @@
-import React, { useEffect } from "react";
-import { pokemonDetailServices, pokemonListServices } from "@/services";
 import SearchForm from "@/components/SearchForm";
+import { usePokemonListStore } from "@/store/pokemonList";
 
 const HomePage = () => {
-  const callData = async () => {
-    const data = await pokemonDetailServices.getPokemonDetail("ditto");
-    console.log("data", data.data);
-  };
-
-  useEffect(() => {
-    callData();
-  }, []);
+  const { pokemon } = usePokemonListStore();
 
   return (
     <div className=" w-[90%] m-[auto] max-w-[1100px]">
@@ -22,6 +14,16 @@ const HomePage = () => {
         />
       </div>
       <SearchForm />
+
+      <div>
+        {pokemon.data?.map((item) => {
+          return (
+            <div className="text-white" key={`pokemon-${item.id}`}>
+              {item.name}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
