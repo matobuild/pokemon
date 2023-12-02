@@ -1,8 +1,10 @@
+import PokemonCard from "@/components/PokemonCard";
 import SearchForm from "@/components/SearchForm";
 import { usePokemonListStore } from "@/store/pokemonList";
 
 const HomePage = () => {
   const { pokemon } = usePokemonListStore();
+  console.log(pokemon);
 
   return (
     <div className=" w-[90%] m-[auto] max-w-[1100px]">
@@ -15,13 +17,9 @@ const HomePage = () => {
       </div>
       <SearchForm />
 
-      <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-[20px] mt-[40px] justify-center">
         {pokemon.data?.map((item) => {
-          return (
-            <div className="text-white" key={`pokemon-${item.id}`}>
-              {item.name}
-            </div>
-          );
+          return <PokemonCard data={item} />;
         })}
       </div>
     </div>
