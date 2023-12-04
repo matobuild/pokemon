@@ -19,7 +19,14 @@ const HomePage = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-[20px] mt-[40px] justify-center">
         {pokemon.data?.map((item) => {
-          return <PokemonCard data={item} />;
+          return (
+            <PokemonCard
+              image={item.image || ""}
+              name={item.name}
+              id={item.id}
+              types={item.types}
+            />
+          );
         })}
       </div>
     </div>

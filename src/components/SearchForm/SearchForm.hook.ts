@@ -28,12 +28,13 @@ const useSearchForm = () => {
           pokemon.name
         );
         const pokeData = response.data;
-        pokeList.push({
-          ...pokeData,
-          image:
-            pokeData.sprites.other.dream_world.front_default ||
-            pokeData.sprites.other["official-artwork"].front_default,
-        });
+        if (pokeData)
+          pokeList.push({
+            ...pokeData,
+            image:
+              pokeData.sprites.other.dream_world.front_default ||
+              pokeData.sprites.other["official-artwork"].front_default,
+          });
       }
       setFetchPokemonList({ data: pokeList, loading: false, error: null });
     } else {

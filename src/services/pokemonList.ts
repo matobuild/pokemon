@@ -20,7 +20,7 @@ export const pokemonListServices = {
         }`
       );
       return handleResponse.success(response);
-    } catch (error) {
+    } catch (error: any) {
       return handleResponse.error(error);
     }
   },
