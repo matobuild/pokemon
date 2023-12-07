@@ -2,7 +2,7 @@ import PokemonCard from "@/components/PokemonCard";
 import { IPokemonDetailResponse } from "@/interface/pokemonDetail";
 import { pokemonDetailServices } from "@/services";
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { Routes, Route, useParams, Link } from "react-router-dom";
 
 type pokemonType = {
   data: IPokemonDetailResponse | undefined;
@@ -22,6 +22,7 @@ const DetailPage = () => {
   const callData = async (name: string) => {
     const response = await pokemonDetailServices.getPokemonDetail(name);
     if (response.status === 200) {
+      console.log("response", response.data);
       if (response.data)
         setPokemon({
           data: {
@@ -57,6 +58,12 @@ const DetailPage = () => {
       </div>
 
       <div className="w-[90%] max-w-[600px] m-[auto]">
+        <Link
+          to={"/"}
+          className="bg-[#4CAFEB] px-[16px] py-[4px] rounded-[16px] font-semibold"
+        >
+          Back
+        </Link>
         {pokemon.data && (
           <div className="rounded-[20px] overflow-hidden shadow p-[16px] m-[auto]">
             <div className="bg-center aspect-square w-full bg-cover rounded-[20px] relative h-[400px]">
@@ -71,7 +78,7 @@ const DetailPage = () => {
                 alt=""
               />
             </div>
-            <div className="pt-5">
+            <div className="pt-5 bg-[#253641] rounded-[20px] p-[16px] mt-[20px]">
               <div className="flex justify-between">
                 <h5 className="capitalize mb-2 text-xl font-bold tracking-tight text-white">
                   {pokemon.data.name}
@@ -80,17 +87,62 @@ const DetailPage = () => {
                   #{pokemon.data.id}
                 </h5>
               </div>
+              <div className="grid grid-col-1 sm:grid-cols-2 gap-x-[20px] gap-y-[30px]">
+                <div>
+                  <div className="flex gap-x-[10px]">
+                    <div className="text-[#4CAFEB] font-semibold">Height</div>
+                    <div className="text-white">
+                      {(pokemon.data.height / 10).toFixed(2)} m.
+                    </div>
+                  </div>
+                  <div className="flex gap-x-[10px]">
+                    <div className="text-[#4CAFEB] font-semibold">Weight</div>
+                    <div className="text-white">
+                      {(pokemon.data.height / 10).toFixed(2)} kg.
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2 justify-start sm:justify-end mt-[16px]">
+                  {pokemon.data.types.map((item) => {
+                    return (
+                      <span
+                        className={`badge-type-${item.type.name} px-[14px] capitalize py-1 rounded-[16px]`}
+                      >
+                        {item.type.name}
+                      </span>
+                    );
+                  })}
+                </div>
+                <div>
+                  <h5 className="text-white font-semibold">Abilities</h5>
+                  <div className="grid grid-cols-2 sm:grid-cols-1 gap-[10px] mt-[16px]">
+                    {pokemon.data.abilities.map((item) => {
+                      return (
+                        <div
+                          className={`bg-[#4CAFEB] px-[14px] capitalize py-1 rounded-[16px]`}
+                        >
+                          {item.ability.name}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
 
-              <div className="flex gap-2 justify-end mt-[16px]">
-                {pokemon.data.types.map((item) => {
-                  return (
-                    <span
-                      className={`badge-type-${item.type.name} px-[14px] capitalize py-1 rounded-[16px]`}
-                    >
-                      {item.type.name}
-                    </span>
-                  );
-                })}
+                <div>
+                  <h5 className="text-white font-semibold">State</h5>
+                  <div className="grid grid-cols-1 gap-[10px] mt-[16px]">
+                    {pokemon.data.stats.map((item) => {
+                      return (
+                        <div className="flex gap-x-[10px] justify-between">
+                          <div className="text-[#4CAFEB] font-semibold capitalize">
+                            {item.stat.name}
+                          </div>
+                          <div className="text-white">{item.base_stat}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
